@@ -1,0 +1,25 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:latest-build AS build
+
+RUN install_packages ffmpeg
+
+WORKDIR /usr/src
+
+RUN git clone https://github.com/Make-Magazine/PirateRadio.git && \
+    g++ -O3 -o pifm PirateRadio/pifm.c && \
+    strip -s pifm && \
+    chmod a+x pifm
+
+RUN curl -o rickroll.mp3 "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Never+Gonna+Give+You+Up-+Original&filename=mz/Mzg1ODMxNTIzMzg1ODM3_JzthsfvUY24.MP3"
+
+RUN ffmpeg -i rickroll.mp3 -f s16le -acodec pcm_s16le -ac 2 -ar 44100 rickroll.wav
+
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:latest-run
+
+ENV FREQUENCY=${FREQUENCY:-106.9}
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/pifm .
+COPY --from=build /usr/src/rickroll.wav .
+
+CMD ./pifm rickroll.wav $FREQUENCY 44100 stereo
