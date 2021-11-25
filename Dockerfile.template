@@ -1,25 +1,36 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:latest-build AS build
 
-RUN install_packages ffmpeg
-
-WORKDIR /usr/src
-
-RUN git clone https://github.com/Make-Magazine/PirateRadio.git && \
-    g++ -O3 -o pifm PirateRadio/pifm.c && \
-    strip -s pifm && \
-    chmod a+x pifm
-
-RUN curl -o rickroll.mp3 "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Never+Gonna+Give+You+Up-+Original&filename=mz/Mzg1ODMxNTIzMzg1ODM3_JzthsfvUY24.MP3"
-
-RUN ffmpeg -i rickroll.mp3 -f s16le -acodec pcm_s16le -ac 2 -ar 44100 rickroll.wav
-
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:latest-run
-
-ENV FREQUENCY=${FREQUENCY:-106.9}
+RUN install_packages lame python3-pip rsync
 
 WORKDIR /usr/src/app
 
-COPY --from=build /usr/src/pifm .
-COPY --from=build /usr/src/rickroll.wav .
+RUN curl -o rickroll.mp3 "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Never+Gonna+Give+You+Up-+Original&filename=mz/Mzg1ODMxNTIzMzg1ODM3_JzthsfvUY24.MP3"
 
-CMD ./pifm rickroll.wav $FREQUENCY 44100 stereo
+RUN git clone https://github.com/Make-Magazine/PirateRadio.git && \
+    g++ -O3 -static -o pifm PirateRadio/pifm.c && \
+    strip -s pifm && \
+    chmod a+x pifm
+
+RUN pip install git+https://github.com/larsks/dockerize
+
+RUN mkdir output
+
+RUN dockerize --verbose \
+    --output-dir /usr/src/app/output \
+    --no-build \
+    /bin/sh \
+    $(which lame) \
+    /usr/src/app/pifm \
+    /usr/src/app/rickroll.mp3
+
+FROM scratch
+
+ENV FREQUENCY=${FREQUENCY:-106.9}
+
+COPY --from=build /usr/src/app/output/ .
+
+WORKDIR /usr/src/app
+
+CMD while :; do \
+        lame --quiet --decode rickroll.mp3 - | ( set -x ; ./pifm - $FREQUENCY 44100 > /dev/null ) || break; \
+    done
