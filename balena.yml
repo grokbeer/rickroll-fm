@@ -1,11 +1,8 @@
 name: rickroll-fm
 type: sw.application
 description: >-
-  Rickroll FM: build your own Raspberry Pi powered FM radio station that plays the
+  Build your own Raspberry Pi powered FM radio station that plays the
   infamous Rickrolling song 24/7 - no extra hardware required!
-  Based on PiFM, originally created by [Oliver Mattos and Oskar Weigl]
-  (http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter)
-  and featured in [Make Magazine](https://makezine.com/projects/raspberry-pirate-radio/).
 post-provisioning: >-
   ## Usage instructions
 
