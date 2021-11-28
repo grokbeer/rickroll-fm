@@ -1,0 +1,58 @@
+name: rickroll-fm
+type: sw.application
+description: >-
+  Rickroll FM: build your own Raspberry Pi powered FM radio station that plays the
+  infamous Rickrolling song 24/7 - no extra hardware required!
+  Based on PiFM, originally created by [Oliver Mattos and Oskar Weigl]
+  (http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter)
+  and featured in [Make Magazine](https://makezine.com/projects/raspberry-pirate-radio/).
+post-provisioning: >-
+  ## Usage instructions
+
+  **Application download**
+
+  Once you power up your device you'll need to allow some time for it to
+  download the application, but it's less than 10MB so should only take a couple
+  of minutes depending on your Internet connection.
+
+  **Usage**
+
+  When the download is completed the application will start and begin playing the
+  Rickroll track immediately. Tune an FM radio to the chosen frequency (defaults to
+  106.9 MHz) and you should hear it playing, but the volume may be quite low.
+  The music will loop continuously.
+  
+  Without an antenna attached to the Raspberry Pi the signal will only transmit ~10 cm.
+  See the [Make Magazine artcle](https://makezine.com/projects/raspberry-pirate-radio/)
+  for instructions on how to attach an antenna, but be aware of your legal obligations.
+
+  **Legal disclaimer**
+
+  Rickroll FM is an experimental project, designed only for experimentation.
+
+  In most countries, transmitting radio waves without a state-issued licence specific
+  to the transmission modalities (frequency, power, bandwidth, etc.) is illegal.
+  Some countries allow personal FM transmitters (e.g. for in-car audio) but with strict
+  power and transmission distance limits.
+
+  Balena or this project can not be held liable for any misuse of your own Raspberry Pi.
+  Any use of this project is made under your own responsibility.
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/grokbeer/rickroll-fm'
+  logo:
+    type: blob.asset
+    data:
+      url: 'https://raw.githubusercontent.com/grokbeer/rickroll-fm/master/logo.png'
+data:
+  applicationEnvironmentVariables:
+    - FREQUENCY: 106.9
+  defaultDeviceType: raspberry-pi
+  supportedDeviceTypes:
+    - raspberry-pi
+    - raspberry-pi2
+    - raspberrypi3
+    - raspberrypi3-64
+version: 1.0.0
