@@ -52,7 +52,7 @@ Do you want to help make rickroll-fm better? Hope to hear from you!
 
 ## Credits
 
-- **PiFM**: Originally created by [Oliver Mattos and Oskar Weigl](http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter)
+- **PiFM**: Originally created by [Oliver Mattos and Oskar Weigl](http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter).
 - **Make Magazine**: [Sam Freeman](https://makezine.com/author/sam-freeman/) and [Wynter Woods](https://github.com/zerotri) for their very helpful [article](https://makezine.com/projects/raspberry-pirate-radio/) explaining the origin of the PiFM project and how to build your own hardware implementation.
 - **Rick Astley**: The [legend himself](http://www.rickastley.co.uk/) for his [timeless classic](https://en.wikipedia.org/wiki/Never_Gonna_Give_You_Up).
 - **Copypasta**: For the inspiration for the [artwork](https://copypastatext.com/tag/rick-roll-ascii-art/) at the top of this README.
